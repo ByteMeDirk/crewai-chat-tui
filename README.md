@@ -42,9 +42,12 @@ Download and install from [ollama.com/download](https://ollama.com/download), th
 
 ```bash
 # Chat model (used for responses)
-ollama pull qwen3.5:9b-q4_K_M
+ollama pull qwen3.5:4b-q4_K_M
 
-# Embedding model (used for agent memory)
+# Memory analysis model (scope/importance inference — much smaller)
+ollama pull qwen2.5:0.5b
+
+# Embedding model (used for vector search)
 ollama pull nomic-embed-text
 ```
 

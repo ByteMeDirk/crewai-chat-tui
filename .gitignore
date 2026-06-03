@@ -24,3 +24,10 @@ Thumbs.db
 # uv
 .python-version
 
+# Logs
+agent.log
+agent.log.*
+
+# Agent memory
+.agent_memory/
+

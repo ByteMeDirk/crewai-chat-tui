@@ -3,7 +3,7 @@
 
 ollama:
   base_url: "http://localhost:11434"
-  model: "qwen3.5:9b-q4_K_M"
+  model: "qwen3.5:4b-q4_K_M"
   temperature: 0.7
 
 knowledge:
@@ -14,6 +14,9 @@ memory:
   # CrewAI stores memory in ~/.crewai by default.
   # Set a custom path here to keep everything inside the project.
   storage_path: ".agent_memory"
+  # Smaller model used only for memory analysis (scope/importance inference).
+  # Keeps the main chat model free and reduces peak RAM usage.
+  memory_model: "qwen2.5:0.5b"
 
 agent:
   name: "LocalAssistant"

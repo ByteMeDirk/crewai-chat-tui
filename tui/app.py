@@ -32,6 +32,7 @@ from textual.widgets import (
     RichLog,
 )
 
+from log import logger
 from tui.utils.css import APP_CSS
 from tui.utils.dialogs import ConfirmScreen
 from tui.utils.widgets import StatusBar
@@ -44,7 +45,6 @@ EXIT_CODE_RESTART = 3
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import CFG
-
 
 
 class LocalAgentApp(App):
@@ -62,9 +62,10 @@ class LocalAgentApp(App):
     _thinking: bool = False
     _cancel_event: asyncio.Event | None = None
 
-    def __init__(self, crew):
+    def __init__(self, agent):
         super().__init__()
-        self._crew = crew
+        self._agent = agent
+        self._history: list[dict] = []  # running conversation history
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -137,13 +138,14 @@ class LocalAgentApp(App):
 
         try:
             from agent import chat  # import here to keep startup fast
-            response = chat(self._crew, message)
+            response = chat(self._agent, self._history, message)
             self.call_from_thread(self._log_agent, response)
             self.call_from_thread(
                 self.query_one("#status-bar", StatusBar).set_state,
                 "Ready"
             )
         except Exception as exc:  # noqa: BLE001
+            logger.error("Agent error during chat: %s", exc, exc_info=True)
             self.call_from_thread(self._log_error, str(exc))
             self.call_from_thread(
                 self.query_one("#status-bar", StatusBar).set_state,
@@ -158,6 +160,7 @@ class LocalAgentApp(App):
 
     def action_clear_chat(self) -> None:
         self.query_one("#chat-log", RichLog).clear()
+        self._history.clear()
         self._log_system("Chat cleared.")
 
     def action_cancel_request(self) -> None:
