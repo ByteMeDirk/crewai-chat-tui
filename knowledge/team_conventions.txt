@@ -1,0 +1,26 @@
+Team Conventions
+================
+
+Code style
+----------
+- Python: PEP 8 + Black formatter, line length 88.
+- Imports: stdlib → third-party → local, separated by blank lines.
+- Type hints on all public function signatures.
+
+Git workflow
+------------
+- Branch naming: feature/<ticket-id>-short-description
+- Commit messages: imperative mood, max 72 chars subject line.
+- PRs require at least one approval before merge.
+
+Deployment
+----------
+- All services run in Docker.
+- Secrets are stored in .env files (never committed).
+- Staging environment mirrors production exactly.
+
+On-call
+-------
+- Primary on-call rotation is weekly, Monday to Monday.
+- Incidents are logged in the #incidents Slack channel.
+- P1 incidents require a post-mortem within 48 hours.

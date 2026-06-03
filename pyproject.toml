@@ -1,0 +1,15 @@
+[project]
+name = "crewai-chat-tui"
+version = "0.1.0"
+description = "Local conversational AI agent with a terminal UI, powered by CrewAI and Ollama"
+authors = ["ByteMeDirk <bytemedirk@proton.me>"]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "crewai>=1.0.0",
+    "textual>=0.65.0",
+    "pyyaml>=6.0.1",
+]
+
+[tool.uv]
+package = false
